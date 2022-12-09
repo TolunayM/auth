@@ -5,6 +5,7 @@ const userRouter = require('./routes/users');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const userModel = require('./models/UserModel');
 
 //MongoDB
 mongoose.connect("mongodb://localhost/passportdb", {useNewUrlParser: true});
@@ -29,7 +30,11 @@ app.use(userRouter);
 
 //Get 
 app.get("/", (req, res,next) => {
-    res.render("pages/index");
+    userModel.find()
+    .lean()  // getting json object instead of mongoose one
+    .then(users => {
+        res.render("pages/index",{users})
+    }).catch(err => console.log(err));
 });
 
 // olmayan bir sayfa icin 404 hatasi

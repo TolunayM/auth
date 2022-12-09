@@ -14,7 +14,7 @@ module.exports.getUserRegister = (req, res,next) => {
 module.exports.postUserRegister = (req, res,next) => {
     const username = req.body.username;
     const password = req.body.password;
-
+    const errors = [];
     const userValidation = validation.registerValidation(username, password);
 
     if(userValidation.length > 0 ){
@@ -28,18 +28,36 @@ module.exports.postUserRegister = (req, res,next) => {
             errors : userValidation
         });
     }else{
-        const newUser = new UserModel({
-            username: username,
-            password: password
-        });
-        newUser
-        .save()
-        .then(() => {
-            console.log('User saved');
-            res.redirect('/');
-        
+
+        // Username check
+        UserModel.findOne({
+            username
+        }).then(user => {
+            if(user){
+                errors.push({message: "User name already in use"});
+                res.render("pages/register",{
+                    errors: errors
+                }).catch(err => console.log(err));
+            }else{
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(password, salt, function(err, hash) {
+                        // Store hash in your password DB.
+                        if(err) throw err;
+                        const newUser = new UserModel({
+                            username: username,
+                            password: hash
+                        });
+                                        
+                newUser
+                .save()
+                .then(() => {
+                    console.log('User saved');
+                    res.redirect('/');
+                
+                })
+                .catch(err => console.log(err));
+                    });
+                });
+            }
         })
-        .catch(err => console.log(err));
-    }
-    
-}
+}}

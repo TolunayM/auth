@@ -5,7 +5,7 @@ const userRouter = require('./routes/users');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
+
 //MongoDB
 mongoose.connect("mongodb://localhost/passportdb", {useNewUrlParser: true});
 const db = mongoose.connection;

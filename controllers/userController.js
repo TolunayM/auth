@@ -1,5 +1,6 @@
 const validation = require('../validation/formValidation');
-
+const bcrypt = require('bcryptjs');
+const UserModel = require('../models/UserModel');
 module.exports.getUserLogin = (req, res,next) => {
     res.render("pages/login");
 }
@@ -27,7 +28,18 @@ module.exports.postUserRegister = (req, res,next) => {
             errors : userValidation
         });
     }else{
-        res.send("Register");
+        const newUser = new UserModel({
+            username: username,
+            password: password
+        });
+        newUser
+        .save()
+        .then(() => {
+            console.log('User saved');
+            res.redirect('/');
+        
+        })
+        .catch(err => console.log(err));
     }
     
 }

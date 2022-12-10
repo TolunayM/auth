@@ -5,10 +5,17 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      
+
+
+      {{#if user}}
       <li class="nav-item active">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      {{else}}
+            <li class="nav-item active">
         <a class="nav-link" href="/login">Login</a>
       </li>
+      {{/if}}
       <li class="nav-item">
         <a class="nav-link" href="/register">Register</a>
       </li>

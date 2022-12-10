@@ -24,6 +24,7 @@ app.use(flash());
 // Global-res.locals
 app.use((req,res,next) => {
     res.locals.flashSuccess = req.flash("flashSuccess");
+    next();
 });
 
 

@@ -52,6 +52,7 @@ module.exports.postUserRegister = (req, res,next) => {
                 .save()
                 .then(() => {
                     console.log('User saved');
+                    req.flash('flashSuccess','User Saved');
                     res.redirect('/');
                 
                 })

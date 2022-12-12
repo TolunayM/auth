@@ -12,13 +12,6 @@ const userModel = require('./models/UserModel');
 const passportJS = require('passport');
 
 
-
-//Passport initialize 
-
-
-
-
-
 // Flash Middleware
 app.use(cookieParser("passportTut"));
 app.use(
@@ -32,13 +25,15 @@ app.use(flash());
 app.use(passportJS.initialize());
 app.use(passportJS.session());
 
+
 // Global-res.locals
 app.use((req,res,next) => {
+    
     //Own flashs
     res.locals.flashSuccess = req.flash("flashSuccess");
     res.locals.flashError = req.flash("flashError");
-    //passportjs flashs
 
+    //passportjs flashs
     res.locals.passportFailure = req.flash('error');
     res.locals.passportSuccess = req.flash("success");
 

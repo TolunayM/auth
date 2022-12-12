@@ -22,6 +22,7 @@ passportJS.use(new localStrategy((username,password,done) => {
 passportJS.serializeUser(function(user,done){
     done(null,user.id);
 });
+
 passportJS.deserializeUser(function(id,done){
     User.findById(id, (err,user) => {
         done(err,user);

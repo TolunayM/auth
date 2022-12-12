@@ -3,15 +3,18 @@ const bcrypt = require('bcryptjs');
 const UserModel = require('../models/UserModel');
 const passportJS = require('passport');
 require('../authentication/passport/local');
+
 module.exports.getUserLogin = (req, res,next) => {
     res.render("pages/login");
 }
+
 module.exports.getUserLogout = (req, res, next) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         res.redirect('/');
       });
 }
+
 module.exports.postUserLogin = (req, res,next) => {
     passportJS.authenticate('local',{
         successRedirect: "/",
@@ -25,6 +28,7 @@ module.exports.postUserLogin = (req, res,next) => {
 module.exports.getUserRegister = (req, res,next) => {
     res.render("pages/register");
 }
+
 module.exports.postUserRegister = (req, res,next) => {
     const username = req.body.username;
     const password = req.body.password;
